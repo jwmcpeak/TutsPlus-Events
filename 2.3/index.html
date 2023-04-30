@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuts+ Events</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+<body onmousemove="moveElement(event)">
+    <div class="container">
+        <h1>Handling Events</h1>
+        <button 
+            class="btn btn-primary"
+        >Toggle Theme</button>
+    </div>
+
+    <div id="follower" class="badge text-bg-secondary fs-5 position-absolute"></div>
+
+    <script>
+        let follower = document.getElementById('follower');
+        function moveElement(e) {
+            let x = e.clientX;
+            let y = e.clientY;
+
+            const offset = 10;
+
+            follower.style.top = `${y + offset}px`;
+            follower.style.left = `${x + offset}px`;
+
+            follower.innerHTML = `X: ${x}; Y: ${y}`;
+        }
+
+        function toggleDarkMode(e) {
+            let docEl = document.documentElement;
+            let attrName = 'data-bs-theme';
+            let target = e.target;
+
+            console.log('button');
+
+            //e.stopPropagation();
+
+            if (target.tagName === 'BUTTON') {
+                if (docEl.getAttribute(attrName)) {
+                    docEl.removeAttribute(attrName);
+                    target.innerHTML = 'Enable Dark Mode';
+                } else {
+                    docEl.setAttribute(attrName, 'dark');
+                    target.innerHTML = 'Disable Dark Mode';
+                }
+            }
+        }
+
+        let button = document.querySelector('button');
+
+        //button.onclick = toggleDarkMode;
+        // button.onclick = function() {
+        //     alert('click')
+        // };
+
+        document.addEventListener('click', toggleDarkMode);
+        // button.addEventListener('click', function() {
+        //     alert('click');
+        // });
+
+        // button.removeEventListener('click', toggleDarkMode);
+        // button.removeEventListener('click', function() {
+        //     alert('click');
+        // });
+
+    </script>
+</body>
+</html>

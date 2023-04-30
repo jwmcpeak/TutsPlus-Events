@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuts+ Events</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" />
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <ul class="draggable-list fs-4">
+            <li draggable="true">Item 1</li>
+            <li draggable="true">Item 2</li>
+            <li draggable="true">Item 3</li>
+        </ul>
+    </div>
+
+    <script>
+
+        function isDraggable(element) {
+            return element.nodeType === 1 && element.matches('ul.draggable-list li');
+        }
+
+        function handleDragStartAndEnd(e) {
+            let target = e.target;
+
+            if (isDraggable(target)) {
+                if (e.type === 'dragstart') {
+                    target.setAttribute('data-dragging', 'true');
+                    e.dataTransfer.setData('position', e.clientY);
+                } else {
+                    target.removeAttribute('data-dragging');
+                }
+            }
+
+        }
+
+        function handleDragOver(e) {
+            let target = e.target;
+            if (isDraggable(target)) {
+                e.preventDefault();
+            }
+            
+        }
+
+        function handleDrop(e) {
+            let target = e.target;
+
+            if (isDraggable(target)) {
+                let draggedElement = document.querySelector('[data-dragging]');
+
+                draggedElement.remove();
+
+                let startY = parseInt(e.dataTransfer.getData('position'), 10);
+
+                if (startY < e.clientY) {
+                    target.insertAdjacentElement('afterend', draggedElement);
+                } else {
+                    target.insertAdjacentElement('beforebegin', draggedElement);
+
+                }
+            }
+
+            
+                    
+        }
+
+
+        document.addEventListener('dragstart', handleDragStartAndEnd);
+        document.addEventListener('dragend', handleDragStartAndEnd)
+        document.addEventListener('dragover', handleDragOver);
+        document.addEventListener('drop', handleDrop);
+
+
+    </script>
+</body>
+</html>
